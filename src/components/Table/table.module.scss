@@ -1,0 +1,40 @@
+.description {
+  max-width: 350px;
+}
+
+.participant {
+  min-width: 100px;
+  max-width: 350px;
+  padding: 0px 20px;
+  text-align: center;
+}
+
+.table {
+  border-collapse: collapse;
+}
+
+.headerRow {
+  height: 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.headerCell {
+  color: rgb(30, 144, 255);
+  font-weight: 400;
+  font-size: 14px;
+  text-align: center;
+  margin: 300px;
+}
+
+.tableCellText {
+  margin: 0;
+  padding: 0;
+}
+
+.tableCellText_bold {
+  font-weight: 600;
+}
+
+.row:nth-child(2n) {
+  background-color: gainsboro;
+}
