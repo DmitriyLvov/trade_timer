@@ -4,11 +4,17 @@ interface IButtonProps {
   text: string;
   color: string;
   textColor: string;
+  onClick?: () => void;
 }
 
-export const Button = ({ text, color, textColor }: IButtonProps) => {
+export const Button = ({ text, color, textColor, onClick }: IButtonProps) => {
   return (
-    <button type="button" className={styles.button} style={{ backgroundColor: color, color: textColor }}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={styles.button}
+      style={{ backgroundColor: color, color: textColor }}
+    >
       {text}
     </button>
   );

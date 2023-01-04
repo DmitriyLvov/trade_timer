@@ -1,0 +1,40 @@
+.row {
+  height: 80px;
+}
+
+.cellWrapper {
+  position: relative;
+}
+
+.cell {
+  min-width: 25px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background-color: rgba(250, 21, 21, 0.1);
+}
+
+.cell_description {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.cellText {
+  margin: 0;
+  padding: 0;
+  color: rgb(212, 0, 0);
+}
+
+.cellText_description {
+  color: rgb(30, 144, 255);
+}
+
+.cellTimerIcon {
+  color: red;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  right: 10px;
+  top: calc(100% / 2 - 8px);
+}

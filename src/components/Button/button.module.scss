@@ -1,9 +1,20 @@
+@keyframes hovered {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
 .button {
   border: none;
   padding: 10px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px gray;
 }
 
 .button:hover {
   cursor: pointer;
-  opacity: 0.8;
+  animation: hovered 0.2s linear forwards;
 }
