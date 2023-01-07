@@ -3,12 +3,18 @@ import { TRADE_SESSION_ID, STEP_DURATION_SEC, USER_QTY } from '../constants/trad
 import { ITimerSession } from '../interfaces/timer';
 
 export const useTradeTimer = (setTimerState: (state: ITimerSession) => void) => {
+  const errorText =
+    'Backend данного приложения запущен на прерываемом сервере(остановка каждые 24 часа). Если появилась эта ' +
+    'ошибка и все в порядке с интернет соединением, то напишите мне в телеграм @eldmitrio для запуска сервера.';
   const sessionHandler = () => {
-    getSessionInfoAPI(TRADE_SESSION_ID)
+    return getSessionInfoAPI(TRADE_SESSION_ID)
       .then(({ data }) => {
         setTimerState(data);
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {
+        console.log(er);
+        return errorText;
+      });
   };
 
   const startTimer = () => {
@@ -19,11 +25,16 @@ export const useTradeTimer = (setTimerState: (state: ITimerSession) => void) => 
       _id: TRADE_SESSION_ID,
     };
 
-    startTimerAPI(sessionInfo)
+    return startTimerAPI(sessionInfo)
       .then(({ data }) => {
         setTimerState(data);
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {
+        console.log(er);
+        if (er?.code === 'ERR_NETWORK') {
+          return errorText;
+        }
+      });
   };
 
   const stopTimer = () => {
