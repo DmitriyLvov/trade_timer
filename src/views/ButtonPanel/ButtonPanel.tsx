@@ -1,7 +1,7 @@
-import { Button } from '../../components/Button/Button';
-import styles from './buttonPanel.module.scss';
 import { useContext } from 'react';
+import { Button } from '../../components/Button/Button';
 import { TimerContext } from '../../context/TimerContext';
+import styles from './buttonPanel.module.scss';
 
 interface IButtonPanelProps {
   startTimer: () => void;

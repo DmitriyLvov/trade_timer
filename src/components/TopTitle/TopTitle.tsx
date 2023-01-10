@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './topTitle.module.scss';
 
 interface ITopTitleProps {

@@ -1,8 +1,8 @@
-import timer_icon from './timer-min.svg';
-import styles from './tableTimer.module.scss';
 import { useContext } from 'react';
+import timer_icon from './timer-min.svg';
 import { TimerContext } from '../../context/TimerContext';
 import { convertSecondsToTimerFormat } from '../../utils/dataUtils';
+import styles from './tableTimer.module.scss';
 
 interface ITableTimerProps {
   userCount: number;

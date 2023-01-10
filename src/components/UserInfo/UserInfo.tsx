@@ -1,7 +1,7 @@
 import { descriptionData } from '../../constants/server';
-import { ITimerSession } from '../../interfaces/timer';
 import { convertSecondsToTimerFormat } from '../../utils/dataUtils';
 import { Table } from '../Table/Table';
+import { ITimerSession } from '../../interfaces/timer';
 import styles from './userInfo.module.scss';
 
 interface IUserInfoProps {

@@ -1,14 +1,15 @@
-import styles from './tableView.module.scss';
+import { useEffect, useState } from 'react';
 import { TopTitle } from '../../components/TopTitle/TopTitle';
-import closeButton from './closeIcon.png';
 import { TopDescription } from '../../components/TopDescription/TopDescription';
 import { Table } from '../../components/Table/Table';
+import closeButton from '../../images/closeIcon.png';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
-import { useEffect, useState } from 'react';
-import { ITimerSession } from '../../interfaces/timer';
 import { TimerContext } from '../../context/TimerContext';
 import { useTradeTimer } from '../../hooks/useTradeTimer';
 import { participants, descriptionData } from '../../constants/server';
+import { ITimerSession } from '../../interfaces/timer';
+import styles from './tableView.module.scss';
+import { PopupWithForm } from '../../components/PopupWithForm/PopupWithForm';
 
 export const TableView = () => {
   const tradeName = 'Изготовление подогревателей Т-2 LTS BJM WS-8.42-2017041/9 - 2 шт. (21.10.2020 10:00)';
@@ -20,9 +21,16 @@ export const TableView = () => {
 
   const { sessionHandler, startTimer, stopTimer } = useTradeTimer(setTimerSession);
 
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupText, setPopupText] = useState('');
+
   // Первый запрос информации с сервера
   useEffect(() => {
-    sessionHandler();
+    sessionHandler().then((res) => {
+      if (typeof res === 'string') {
+        popupOpen(res);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -34,7 +42,26 @@ export const TableView = () => {
       clearTimeout(currentTimer);
       setCurrentTimer(undefined);
     }
+    return () => clearTimeout(currentTimer);
   }, [currentTimer, timerSession]);
+
+  const startTimerHandler = () => {
+    startTimer().then((res) => {
+      if (typeof res === 'string') {
+        popupOpen(res);
+      }
+    });
+  };
+
+  const popupOpen = (errorText: string) => {
+    setPopupText(errorText);
+    setPopupVisible(true);
+  };
+
+  const popupCloseHandler = () => {
+    setPopupVisible(false);
+    setPopupText('');
+  };
 
   return (
     <section className={styles.layout}>
@@ -45,12 +72,19 @@ export const TableView = () => {
             <img className={styles.closeButton} src={closeButton} alt="close button"></img>
             <TopDescription tradeDescription={tradeDescription} />
             <Table participants={participants} description={descriptionData} />
-            <ButtonPanel startTimer={startTimer} stopTimer={stopTimer} />
+            <ButtonPanel startTimer={startTimerHandler} stopTimer={stopTimer} />
           </div>
         </div>
       </TimerContext.Provider>
+      <PopupWithForm
+        title="Ошибка подключения"
+        buttonText="ОК"
+        visible={popupVisible}
+        onClose={popupCloseHandler}
+        onSubmit={popupCloseHandler}
+      >
+        <p className={styles.popupText}>{popupText}</p>
+      </PopupWithForm>
     </section>
   );
 };
-
-export default TableView;
