@@ -7,4 +7,7 @@ export interface ITimer {
 export interface ITimerSession {
   currentStep: number;
   currentUserNumber: number;
+  errorText: string;
+  startTimer: () => void;
+  stopTimer: () => void;
 }

@@ -1,15 +1,27 @@
-import { useContext } from 'react';
 import timer_icon from './timer-min.svg';
-import { TimerContext } from '../../context/TimerContext';
+import { useTimerContext } from '../../contexts/TimerContext';
 import { convertSecondsToTimerFormat } from '../../utils/dataUtils';
 import styles from './tableTimer.module.scss';
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
 
 interface ITableTimerProps {
   userCount: number;
 }
 
 export const TableTimer = ({ userCount }: ITableTimerProps) => {
-  const { currentUserNumber, currentStep } = useContext(TimerContext);
+  const { currentUserNumber, currentStep } = useTimerContext();
+  const [userNumber, setUserNumber] = useState(0);
+
+  const { userNumber: userNumberFromAdress } = useParams();
+
+  useEffect(() => {
+    if (userNumberFromAdress) {
+      setUserNumber(Number.parseInt(userNumberFromAdress));
+    }
+  }, [userNumberFromAdress]);
+
+  const isIndividualTimer = userNumber ? true : false;
 
   return (
     <tr className={styles.row}>
@@ -18,17 +30,29 @@ export const TableTimer = ({ userCount }: ITableTimerProps) => {
           <p className={`${styles.cellText} ${styles.cellText_description}`}>Ход</p>
         </div>
       </td>
-      {Array.from({ length: userCount }).map((empty, index) =>
-        index + 1 === currentUserNumber ? (
-          <td className={styles.cellWrapper} key={`timer_${index}`}>
-            <div className={styles.cell}>
+      {isIndividualTimer ? (
+        <>
+          {currentUserNumber === userNumber && (
+            <td className={styles.isIndividualTimer}>
               <p className={styles.cellText}>{convertSecondsToTimerFormat(currentStep)}</p>
-            </div>
-            <img alt="clock" className={styles.cellTimerIcon} src={timer_icon} />
-          </td>
-        ) : (
-          <td key={`timer_${index}`} />
-        ),
+            </td>
+          )}
+        </>
+      ) : (
+        <>
+          {Array.from({ length: userCount }).map((empty, index) =>
+            index + 1 === currentUserNumber ? (
+              <td className={styles.cellWrapper} key={`timer_${index}`}>
+                <div className={styles.cell}>
+                  <p className={styles.cellText}>{convertSecondsToTimerFormat(currentStep)}</p>
+                </div>
+                <img alt="clock" className={styles.cellTimerIcon} src={timer_icon} />
+              </td>
+            ) : (
+              <td key={`timer_${index}`} />
+            ),
+          )}
+        </>
       )}
     </tr>
   );

@@ -1,11 +1,10 @@
 import styles from './popupWithForm.module.scss';
 import closeButton from '../../images/closeIcon.png';
-
 interface IPopupWithFormProps {
   title: string;
   onClose: () => void;
   buttonText: string;
-  onSubmit: () => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isValid?: boolean;
   visible: boolean;
   children: React.ReactElement;
@@ -21,27 +20,27 @@ export const PopupWithForm = ({
   children,
 }: IPopupWithFormProps) => {
   return (
-    <div className={visible ? `${styles.popup} ${styles.popup_opened}` : styles.popup}>
-      <form onSubmit={onSubmit} className={`${styles.popup__container} ${styles.popup__container_type_form}`}>
+    <div className={visible ? `${styles.popup} ${styles.popupOpened}` : styles.popup}>
+      <form onSubmit={onSubmit} className={`${styles.popupContainer} ${styles.popupContainerTypeForm}`}>
         <button
           type="button"
           style={{ backgroundImage: closeButton }}
-          className={styles.popup__closeButton}
+          className={styles.popupCloseButton}
           onClick={onClose}
         ></button>
-        <h2 className={styles.popup__title}>{title}</h2>
+        <h2 className={styles.popupTitle}>{title}</h2>
         {children}
         {isValid ? (
           <button
             type="submit"
-            className={`${styles.popup__submitButton} ${styles.popup__submitButton_type_confirm}`}
+            className={`${styles.popupSubmitButton} ${styles.popupSubmitButtonTypeConfirm}`}
           >
             {buttonText}
           </button>
         ) : (
           <button
             type="submit"
-            className={`${styles.popup__submitButton} ${styles.popup__submitButton_type_confirm} ${styles.popup__submitButton_disabled} `}
+            className={`${styles.popupSubmitButton} ${styles.popupSubmitButtonTypeConfirm} ${styles.popupSubmitButtonDisabled}`}
             disabled
           >
             {buttonText}

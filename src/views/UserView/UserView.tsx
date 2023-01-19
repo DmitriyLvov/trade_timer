@@ -1,62 +1,34 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { PopupWithForm } from '../../components/PopupWithForm/PopupWithForm';
-import { UserInfo } from '../../components/UserInfo/UserInfo';
 import { participants } from '../../constants/server';
-import { useTradeTimer } from '../../hooks/useTradeTimer';
-import { ITimerSession } from '../../interfaces/timer';
+import { Table } from '../../components/Table/Table';
+import { descriptionData } from '../../constants/server';
+import { useTimerContext } from '../../contexts/TimerContext';
+import styles from './userView.module.scss';
 
 export const UserView = () => {
   const { userNumber } = useParams();
-  const [timerSession, setTimerSession] = useState<ITimerSession>();
-  const [currentTimer, setCurrentTimer] = useState<NodeJS.Timer>();
-
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [popupText, setPopupText] = useState('');
-
-  const { sessionHandler } = useTradeTimer(setTimerSession);
+  const { currentUserNumber } = useTimerContext();
 
   const userIndex = Number.parseInt(userNumber!) - 1;
 
-  // Первый запрос информации с сервера
-  useEffect(() => {
-    sessionHandler().then((res) => {
-      if (typeof res === 'string') {
-        popupOpen(res);
-      } else {
-        const timer_id = setInterval(() => sessionHandler(), 1000);
-        setCurrentTimer(timer_id);
-        return () => clearTimeout(currentTimer);
-      }
-    });
-  }, []);
-
-  const popupOpen = (errorText: string) => {
-    setPopupText(errorText);
-    setPopupVisible(true);
-  };
-
-  const popupCloseHandler = () => {
-    setPopupVisible(false);
-    setPopupText('');
-  };
-
   return (
     <>
-      {timerSession?.currentUserNumber && timerSession.currentUserNumber > 0 ? (
-        <UserInfo participant={participants[userIndex]} timerSession={timerSession} userIndex={userIndex} />
+      {currentUserNumber && currentUserNumber > 0 ? (
+        <div className={styles.root}>
+          {currentUserNumber === userIndex + 1 ? (
+            <p className={`${styles.text} ${styles.text_green}`}>Сейчас ваш ход</p>
+          ) : (
+            <p className={`${styles.text} ${styles.text_red}`}>Ход участника {currentUserNumber}</p>
+          )}
+          <Table
+            participants={[participants[userIndex]]}
+            description={descriptionData}
+            isLinkEnabled={false}
+          />
+        </div>
       ) : (
         <p>Торги не проводятся</p>
       )}
-      <PopupWithForm
-        title="Ошибка подключения"
-        buttonText="ОК"
-        visible={popupVisible}
-        onClose={popupCloseHandler}
-        onSubmit={popupCloseHandler}
-      >
-        <p>{popupText}</p>
-      </PopupWithForm>
     </>
   );
 };

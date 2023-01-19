@@ -2,14 +2,19 @@ import { getSessionInfoAPI, startTimerAPI, stopTimerAPI } from '../api';
 import { TRADE_SESSION_ID, STEP_DURATION_SEC, USER_QTY } from '../constants/trade';
 import { ITimerSession } from '../interfaces/timer';
 
-export const useTradeTimer = (setTimerState: (state: ITimerSession) => void) => {
+export const useTradeTimer = (setTimerState: (state: any) => void) => {
   const errorText =
     'Backend данного приложения запущен на прерываемом сервере(остановка каждые 24 часа). Если появилась эта ' +
     'ошибка и все в порядке с интернет соединением, то напишите мне в телеграм @eldmitrio для запуска сервера.';
   const sessionHandler = () => {
-    return getSessionInfoAPI(TRADE_SESSION_ID)
+    getSessionInfoAPI(TRADE_SESSION_ID)
       .then(({ data }) => {
-        setTimerState(data);
+        setTimerState((prevData: any) => {
+          prevData.currentStep = data.currentStep;
+          prevData.currentUserNumber = data.currentUserNumber;
+
+          return prevData;
+        });
       })
       .catch((er) => {
         console.log(er);

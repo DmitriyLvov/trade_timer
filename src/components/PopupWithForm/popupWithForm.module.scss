@@ -29,22 +29,22 @@
   opacity: 0;
   transition: visibility 0.3s linear, opacity 0.3s linear;
   visibility: hidden;
-  background-color: rgba(0,0,0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.popup_opened {
+.popupOpened {
   display: flex;
   opacity: 1;
   visibility: visible;
 }
 
-.popup__title {
+.popupTitle {
   font: 900 24px/29px 'Arial';
   margin-top: 36px;
+  text-align: center;
 }
 
-
-.popup__submitButton {
+.popupSubmitButton {
   width: 358px;
   height: 50px;
   margin: 48px auto 36px auto;
@@ -55,45 +55,42 @@
   font: 400 18px/22px 'sans-serif';
 }
 
-.popup__submitButton:hover {
+.popupSubmitButton:hover {
   cursor: pointer;
   animation: save-hovered 0.2s linear forwards;
 }
 
-.popup__submitButton_type_confirm {
+.popupSubmitButtonTypeConfirm {
   margin-top: 38px;
 }
 
-.popup__submitButton_disabled {
+.popupSubmitButtonDisabled {
   background-color: #fff;
   color: #000;
   opacity: 0.2;
   border: 1px solid;
 }
 
-.popup__container {
+.popupContainer {
   display: flex;
   margin: 0 auto;
   z-index: 3;
 }
 
-.popup__container_type_form {
+.popupContainerTypeForm {
   background-color: rgba(255, 255, 255, 1);
   width: 430px;
   position: fixed;
-  top: calc(50% - 330px/2);
-  left: calc(50% - 430px/2);
+  top: calc(50% - 330px / 2);
+  left: calc(50% - 430px / 2);
   border-radius: 10px;
   flex-direction: column;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
 }
 
-
-
-.popup__closeButton {
+.popupCloseButton {
   width: 32px;
   height: 32px;
-  // background-image: url('../../images/icon__close.svg');
   background-color: rgba(0, 0, 0, 0);
   border: none;
   position: absolute;
@@ -101,31 +98,30 @@
   top: -40px;
 }
 
-.popup__closeButton:hover {
+.popupCloseButton:hover {
   cursor: pointer;
   animation: hovered 0.2s linear forwards;
 }
 
-
-@media screen and (max-width:700px) {
-  .popup__container_type_form {
+@media screen and (max-width: 700px) {
+  .popupContainerTypeForm {
     width: 282px;
-    top: calc(50% - 322px/2);
-    left: calc(50% - 282px/2);
+    top: calc(50% - 322px / 2);
+    left: calc(50% - 282px / 2);
   }
-  .popup__submitButton {
+  .popupSubmitButton {
     width: 238px;
     height: 46px;
     font: 400 14px/17px 'Inter';
   }
-  .popup__closeButton {
+  .popupCloseButton {
     left: calc(100% - 20px);
     top: -36px;
     width: 20px;
     height: 20px;
     background-size: 100%;
   }
-  .popup__title {
+  .popupTitle {
     font: 900 18px/1.21 'Inter';
     margin: 25px 0 0 22px;
   }

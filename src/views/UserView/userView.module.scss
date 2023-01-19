@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  width: 40%;
+  margin: 0 auto;
+}
+
+.text {
+  margin: 0;
+}
+
+.text_green {
+  color: #259b24;
+}
+
+.text_red {
+  color: #b71c1c;
+}

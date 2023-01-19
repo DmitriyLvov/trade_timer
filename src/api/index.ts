@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { BASE_URL } from '../constants/api';
 import { ITimer } from '../interfaces/timer';
 
-const API = axios.create({ baseURL: BASE_URL });
+const API = axios.create({ baseURL: process.env.REACT_APP_SERVER_URL });
 
 export const getSessionInfoAPI = (session_id: string) => API.get(`/sessionInfo/${session_id}`);
 
