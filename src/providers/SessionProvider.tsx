@@ -23,6 +23,11 @@ const SessionProvider = ({ children }: ISessionProviderProps) => {
     setCurrentUserNumber(data.currentUserNumber);
   };
 
+  const startPeriodicalRequest = () => {
+    const timer_id = setInterval(() => sessionHandler(), 1000);
+    setCurrentTimer(timer_id);
+  };
+
   const sessionHandler = () => {
     return getSessionInfoAPI(TRADE_SESSION_ID)
       .then(({ data }) => {
@@ -39,8 +44,7 @@ const SessionProvider = ({ children }: ISessionProviderProps) => {
   useEffect(() => {
     sessionHandler().then((res) => {
       if (res === 'OK') {
-        const timer_id = setInterval(() => sessionHandler(), 1000);
-        setCurrentTimer(timer_id);
+        startPeriodicalRequest();
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,6 +61,7 @@ const SessionProvider = ({ children }: ISessionProviderProps) => {
     startTimerAPI(sessionInfo)
       .then(({ data }) => {
         saveDataToStates(data);
+        startPeriodicalRequest();
       })
       .catch((er) => {
         console.log(er);
